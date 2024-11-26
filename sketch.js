@@ -2,18 +2,13 @@
 // p5Play engine
 
 
-let box, floor;
+let car, cone;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
 
-  box = new Sprite();
-  box.x = 200;
-  box.width = 50;
-  box.height = 50;
-  
-  floor.width = width;
-  floor.y = 50;
+  car = new Sprite(windowWidth/2, windowHeight/2, 50, 100);
+
   
 
 }
