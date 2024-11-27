@@ -2,13 +2,14 @@
 // p5Play engine
 
 
-let car, cone;
+let car, cone, road;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
 
-  car = new Sprite(windowWidth/2, windowHeight/2, 50, 100);
+  car = new Sprite(windowWidth/2, windowHeight - windowHeight/4, 50, 100);
 
+  
   
 
 }

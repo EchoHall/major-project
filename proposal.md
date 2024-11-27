@@ -12,6 +12,7 @@ A game where you control a game drifting through the city
 - speed through puddle
 - background
 - music
+- sound of the car drifting
 
 ## Nice To Have
 - choose different car
@@ -20,4 +21,3 @@ A game where you control a game drifting through the city
     - no obsticals 
     - obsticals
     - night time(less visability)
-- sound of the car drifting
