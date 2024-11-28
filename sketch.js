@@ -2,18 +2,20 @@
 // p5Play engine
 
 
-let car, cone, road;
+let car;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
 
-  car = new Sprite(windowWidth/2, windowHeight - windowHeight/4, 50, 100);
-
-  
-  
+  car = new Sprite();
+  car.y = windowHeight/2 + 100;
+  car.x = windowWidth/2;
+  car.w = 50;
+  car.h = 100;
 
 }
 
 function draw() {
   clear();
+  car.rotateTowards(mouse, 0.1, 90);
 }
