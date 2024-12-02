@@ -17,7 +17,7 @@ function setup() {
   road = new Sprite();
   road.y = windowHeight/2;
   road.x = windowWidth/2;
-  road.w = 400;
+  road.w = 600;
   road.h = windowHeight;
   road.color = "black";
   road.layer = 1;
@@ -25,8 +25,22 @@ function setup() {
 
 function draw() {
   clear();
+  carTurning();
+  roadMovement();
+  
+}
+
+function carTurning(){
   car.rotateTowards(mouse, 0.1, 90);
   car.overlaps(road);
 
   
 }
+
+function roadMovement(){
+  road.y += 5;
+  if (road.y > windowHeight){
+    road.y = 0;
+  }
+}
+
