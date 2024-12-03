@@ -33,8 +33,9 @@ function draw() {
 function carTurning(){
   car.rotateTowards(mouse, 0.1, 90);
   car.overlaps(road);
-
-  
+  if(car.x !== mouseX && mouseX > road.x - road.w/2 && mouseX < road.x + road.w/2){
+    car.moveTowards(mouseX, car.y, 0.1);
+  }
 }
 
 function roadMovement(){
