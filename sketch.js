@@ -21,20 +21,22 @@ function setup() {
   road.h = windowHeight;
   road.color = "black";
   road.layer = 1;
+
+
 }
 
 function draw() {
   clear();
   carTurning();
   roadMovement();
-  
 }
 
 function carTurning(){
-  car.rotateTowards(mouse, 0.1, 90);
+  //helps car dodge obsticals
   car.overlaps(road);
   if(car.x !== mouseX && mouseX > road.x - road.w/2 && mouseX < road.x + road.w/2){
-    car.moveTowards(mouseX, car.y, 0.1);
+    car.moveTowards(mouseX, mouseY + car.h, 0.1);
+    car.rotateTowards(mouse, 0.1, 90);
   }
 }
 
@@ -43,5 +45,12 @@ function roadMovement(){
   if (road.y > windowHeight){
     road.y = 0;
   }
-}
 
+  if (keyIsDown(65)){
+    road.rotate(-1);
+  }
+
+  if (keyIsDown(68)){
+    road.rotate(1);
+  }
+}
