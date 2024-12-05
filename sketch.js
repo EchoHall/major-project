@@ -4,6 +4,8 @@
 
 let road, car;
 
+let speed = 5;
+
 function setup() {
   new Canvas(windowWidth, windowHeight);
 
@@ -34,14 +36,13 @@ function draw() {
 function carTurning(){
   //helps car dodge obsticals
   car.overlaps(road);
-  if(car.x !== mouseX && mouseX > road.x - road.w/2 && mouseX < road.x + road.w/2){
+  if(car.x !== mouseX){
     car.moveTowards(mouseX, mouseY + car.h, 0.1);
     car.rotateTowards(mouse, 0.1, 90);
   }
 }
 
 function roadMovement(){
-  road.y += 5;
   if (road.y > windowHeight){
     road.y = 0;
   }
@@ -53,4 +54,18 @@ function roadMovement(){
   if (keyIsDown(68)){
     road.rotate(1);
   }
+
+  //speed up
+  if (keyIsDown(87)){
+    speed +=0.2;
+  }
+
+  if (keyIsDown(83)){
+    speed -= 0.2;
+  }
+
+  if (speed < 1){
+    speed = 1;
+  }
+  
 }
