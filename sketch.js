@@ -5,6 +5,7 @@
 let road, car;
 
 let speed = 5;
+let turningAngle = 1;
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
@@ -43,27 +44,26 @@ function carTurning(){
 }
 
 function roadMovement(){
-  if (road.y > windowHeight){
-    road.y = 0;
-  }
+  //ratio for turning angles
+  
 
   if (keyIsDown(65)){
-    road.rotate(-1);
+    road.rotate(-turningAngle);
   }
 
   if (keyIsDown(68)){
-    road.rotate(1);
+    road.rotate(turningAngle);
   }
 
   //speed up
   if (keyIsDown(87)){
     speed +=0.2;
   }
-
+  //slow down
   if (keyIsDown(83)){
     speed -= 0.2;
   }
-
+  //slowest
   if (speed < 1){
     speed = 1;
   }
