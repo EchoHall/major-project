@@ -69,3 +69,7 @@ function roadMovement(){
   }
   
 }
+
+function generateCurveRoad(){
+  
+}
