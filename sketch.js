@@ -2,7 +2,7 @@
 // p5Play engine
 
 
-let road, car;
+let road, car, curveRoad, obstical;
 
 let speed = 5;
 let turningAngle = 1;
@@ -18,13 +18,17 @@ function setup() {
   car.layer = 2;
 
   road = new Sprite();
-  road.y = windowHeight/2;
+  road.y = 0;
   road.x = windowWidth/2;
   road.w = 600;
-  road.h = windowHeight;
+  road.h = windowHeight*2;
   road.color = "black";
   road.layer = 1;
 
+  obstical = new Sprite();
+  obstical.x = random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
+  obstical.y = 0;
+  obstical.layer = 2;
 
 }
 
@@ -32,10 +36,26 @@ function draw() {
   clear();
   carTurning();
   roadMovement();
+  generateObsitcal();
 }
 
 function carTurning(){
-  //helps car dodge obsticals
+  //helps car drift
+  car.overlaps(road);
+  // car.overlaps(curveRoad);
+
+  // if (keyIsDown(65)){
+  //   car.rotateMinTo(-45, 5);
+  // }
+
+  // else if (keyIsDown(68)){
+  //   car.rotateMinTo(45, 5);
+  // }
+
+  // else{
+  //   car.rotateMinTo(0, 5);
+  // }
+
   car.overlaps(road);
   if(car.x !== mouseX){
     car.moveTowards(mouseX, mouseY + car.h, 0.1);
@@ -47,13 +67,13 @@ function roadMovement(){
   //ratio for turning angles
   
 
-  if (keyIsDown(65)){
-    road.rotate(-turningAngle);
-  }
+  // if (keyIsDown(65)){
+  //   road.rotate(-turningAngle);
+  // }
 
-  if (keyIsDown(68)){
-    road.rotate(turningAngle);
-  }
+  // if (keyIsDown(68)){
+  //   road.rotate(turningAngle);
+  // }
 
   //speed up
   if (keyIsDown(87)){
@@ -64,12 +84,26 @@ function roadMovement(){
     speed -= 0.2;
   }
   //slowest
-  if (speed < 1){
-    speed = 1;
+  if (speed < 0.5){
+    speed = 0.5;
   }
   
 }
 
-function generateCurveRoad(){
-  
+// function generateCurveRoad(){
+//   curveRoad = new Sprite();
+//   curveRoad.y = windowHeight/2;
+//   curveRoad.x = windowWidth/2;
+//   curveRoad.w = 600;
+//   curveRoad.h = windowHeight;
+//   curveRoad.color = "black";
+//   curveRoad.layer = 1;
+// }
+
+function generateObsitcal(){
+
+  obstical.y += 1;
+  if(obstical.y > windowHeight){
+    obstical.y = 0;
+  }
 }
