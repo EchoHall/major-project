@@ -2,7 +2,7 @@
 // p5Play engine
 
 
-let road, car, curveRoad, obstical, startButton;
+let road, car, curveRoad, obstical;
 let gameStart = false;
 
 let speed = 5;
@@ -31,20 +31,8 @@ function setup() {
   obstical.y = 0;
   obstical.layer = 2;
 
-  startButton = new Sprite();
-  startButton.y = windowHeight/2;
-  startButton.x = windowWidth/2;
-  startButton.w = 400;
-  startButton.h = 300;
-  startButton.color = "green";
-  startButton.layer = 70;
-
   car.overlaps(road);
   obstical.overlaps(road);
-  startButton.overlaps(road);
-  startButton.overlaps(obstical);
-  startButton.overlaps(car);
-
 }
 
 function draw() {
@@ -58,7 +46,7 @@ function draw() {
 }
 
 function carTurning(){
-  if(car.x !== mouseX){
+  if(car.x !== mouseX && mouseX < windowWidth/2 + road.w/2 && mouseX > windowWidth/2 - road.w/2){
     car.moveTowards(mouseX, mouseY + car.h, 0.1);
     car.rotateTowards(mouse, 0.1, 90);
   }
@@ -111,11 +99,24 @@ function generateObsitcal(){
 
 function createStartScreen(){
   
-  textSize(400);
-  text("start", windowWidth/2, windowHeight/2);
-  if(mouseIsPressed && mouseY < windowHeight/2 + startButton.h/2 && mouseY > windowHeight/2 - startButton.h/2 
-    && mouseX < windowWidth/2 + startButton.w/2 && mouseX > windowWidth/2 - startButton.w/2){
-    startButton.x = -windowWidth;
+  let maxHeight = 300;
+  let maxWidth = 400;
+  let minWidth = 200;
+  let minHeight = 200;
+  if(!gameStart){
+    textSize(60);
+    fill("yellow");
+    stroke("black");
+    text("Click Here Start", minWidth, minHeight, maxWidth, maxHeight);
+  }
+  if(mouseIsPressed && mouseY < maxHeight && mouseY > minHeight && mouseX < maxWidth && mouseX > minWidth){
+    minWidth = -12345;
     gameStart = true;
+  }
+}
+
+function createResetScreen(){
+  if(car.w < windowWidth/2 - road.w/2 && car.w > windowWidth/2 + road.w/2){
+    
   }
 }
