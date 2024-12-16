@@ -43,6 +43,7 @@ function draw() {
     roadMovement();
     generateObsitcal();
   }
+  createResetScreen();
 }
 
 function carTurning(){
@@ -107,16 +108,21 @@ function createStartScreen(){
     textSize(60);
     fill("yellow");
     stroke("black");
-    text("Click Here Start", minWidth, minHeight, maxWidth, maxHeight);
+    text("Click Here To Start", minWidth, minHeight, maxWidth, maxHeight);
   }
   if(mouseIsPressed && mouseY < maxHeight && mouseY > minHeight && mouseX < maxWidth && mouseX > minWidth){
     minWidth = -12345;
     gameStart = true;
   }
+  
 }
 
 function createResetScreen(){
   if(car.w < windowWidth/2 - road.w/2 && car.w > windowWidth/2 + road.w/2){
+    gameStart = false;
+  }
+
+  if (!gameStart){
     
   }
 }
