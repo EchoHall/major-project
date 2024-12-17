@@ -114,15 +114,10 @@ function createStartScreen(){
     minWidth = -12345;
     gameStart = true;
   }
-  
-}
 
-function createResetScreen(){
-  if(car.w < windowWidth/2 - road.w/2 && car.w > windowWidth/2 + road.w/2){
+  if(car.x < windowWidth/2 - road.w/2 && car.x > windowWidth/2 + road.w/2){
     gameStart = false;
+    minWidth = 200;
   }
-
-  if (!gameStart){
-    
-  }
+  
 }
