@@ -34,10 +34,11 @@ function setup() {
   road.color = "black";
   road.layer = 1;
 
-  obstical = new Sprite();
-  obstical.x = random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
+  obstical = new Group();
+  obstical.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
   obstical.y = 0;
   obstical.layer = 3;
+  obstical.amount = 4;
 
   puddle = new Sprite();
   puddle.w = random(100, 150);
@@ -64,61 +65,27 @@ function draw() {
     generateObsitcal();
     generatePuddle();
   }
-
-  if(car.x < windowWidth/2 - road.w/2 && car.x > windowWidth/2 + road.w/2){
-    createResetScreen();
-  }
 }
 
 function carTurning(){
   if(car.x !== mouseX && mouseX < windowWidth/2 + road.w/2 && mouseX > windowWidth/2 - road.w/2){
-    car.moveTowards(mouseX, mouseY + car.h, speed);
-    car.rotateTowards(mouse, 0.1, 90);
+    car.moveTowards(mouseX, mouseY + car.h, 0.1);
+    car.rotateTowards(mouse, 1, 90);
   }
 }
 
-function roadMovement(){
-  //ratio for turning angles
-  
+ 
 
-  // if (keyIsDown(65)){
-  //   road.rotate(-turningAngle);
-  // }
-
-  // if (keyIsDown(68)){
-  //   road.rotate(turningAngle);
-  // }
-
-  //speed up
-  if (keyIsDown(87)){
-    speed +=0.2;
-  }
-  //slow down
-  if (keyIsDown(83)){
-    speed -= 0.2;
-  }
-  //slowest
-  if (speed < 0.5){
-    speed = 0.5;
-  }
-  
-}
-
-// function generateCurveRoad(){
-//   curveRoad = new Sprite();
-//   curveRoad.y = windowHeight/2;
-//   curveRoad.x = windowWidth/2;
-//   curveRoad.w = 600;
-//   curveRoad.h = windowHeight;
-//   curveRoad.color = "black";
-//   curveRoad.layer = 1;
-// }
 
 function generateObsitcal(){
   obstical.y += speedOfObs;
   if(obstical.y > windowHeight){
-    obstical.y = 0;
-    obstical.x = random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
+    obstical.y = 0;//() => random(0, windowHeight/4);
+    obstical.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
+  }
+
+  if(car.overlaps(obstical)){
+    createResetScreen();
   }
 }
 
@@ -153,9 +120,11 @@ function generatePuddle(){
 
 function createResetScreen(){
   gameStart = false;
-
-
   minWidthText = -minWidthText;
+  
+  obstical.y = 0;
+  car.y = windowHeight/2 + 100;
+  puddle.y = 0;
 
   textSize(60);
   fill("yellow");
