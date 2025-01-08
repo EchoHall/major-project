@@ -14,7 +14,9 @@ let maxWidthText = 400;
 let minWidthText = 100;
 let minHeightText = 200;
 
-
+function preload(){
+  buildings = loadImage("building.jpg");
+}
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
@@ -46,8 +48,6 @@ function setup() {
   puddle.x = random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
   puddle.y = 0;
   puddle.layer = 2;
-
-  buildings = new Group();
   
 
   car.overlaps(road);
@@ -152,5 +152,5 @@ function createResetScreen(){
 }
 
 function generateBackground(){
-
+  
 }
