@@ -2,7 +2,7 @@
 // p5Play engine
 
 
-let road, car, curveRoad, obstical, puddle, buildings, windows;
+let road, car, curveRoad, obstical, puddle, buildings;
 let gameStart = false;
 
 let minSpeed = 0.5;
@@ -48,6 +48,12 @@ function setup() {
   puddle.x = random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
   puddle.y = 0;
   puddle.layer = 2;
+
+  buildings = new Group();
+  buildings.x = () => random(0, windowWidth/2 - road.w,);
+  buildings.y = () => random(0, windowHeight);
+  buildings.collider = "s";
+  buildings.amount = 10;
   
 
   car.overlaps(road);
@@ -67,6 +73,7 @@ function draw() {
     changeSpeed();
     generateObsitcal();
     generatePuddle();
+    generateBackground();
   }
 }
 
@@ -94,7 +101,7 @@ function changeSpeed(){
 function generateObsitcal(){
   obstical.y += speedOfObs;
   if(obstical.y > windowHeight){
-    obstical.y = 0; //() => random(0, windowHeight/4);
+    obstical.y = 0;
     obstical.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
   }
 
@@ -152,5 +159,6 @@ function createResetScreen(){
 }
 
 function generateBackground(){
+  image(buildings, buildings.x, buildings.y);
   
 }
