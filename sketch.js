@@ -2,7 +2,7 @@
 // p5Play engine
 
 
-let road, car, curveRoad, obstical, puddle, buildings, buildingsRed;
+let road, car, curveRoad, obstical, puddle, buildings;
 let gameStart = false;
 
 let minSpeed = 0.5;
@@ -11,7 +11,7 @@ let turningAngle = 1;
 
 let maxHeightText = 300;
 let maxWidthText = 400;
-let minWidthText = 100;
+let minWidthText = 120;
 let minHeightText = 200;
 
 
@@ -35,7 +35,7 @@ function setup() {
 
   obstical = new Group();
   obstical.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
-  obstical.y = 0;
+  obstical.y = () => random(100);
   obstical.w = 30;
   obstical.h = 30;
   obstical.layer = 3;
@@ -48,26 +48,22 @@ function setup() {
   puddle.y = 0;
   puddle.layer = 2;
 
-  buildings = new Group();
-  buildings.w = 100;
-  buildings.h = 150;
-  buildings.x = -500;
-  buildings.y = () => random(0, windowHeight);
-  buildings.collider = "s";
-  buildings.layer = 0;
-
-  buildingsRed = new buildings.Group();
-  buildingsRed.image = "images.jpg";
-  buildingsRed.amount = 10;
+  // buildings = new Group();
+  // buildings.w = 100;
+  // buildings.h = 150;
+  // buildings.x = () => random(windowWidth);
+  // buildings.y = () => random(windowHeight);
+  // buildings.collider = "s";
+  // buildings.layer = 0;
+  // buildings.amount = 10;
   
-
   car.overlaps(road);
   car.overlaps(puddle);
-  car.overlaps(buildings);
+  //car.overlaps(buildings);
 
   obstical.overlaps(puddle);
   obstical.overlaps(road);
-  obstical.overlaps(buildings);
+  // obstical.overlaps(buildings);
 
   puddle.overlaps(road);
 }
@@ -89,9 +85,14 @@ function carTurning(){
     car.moveTowards(mouseX, car.y, 0.1);
     car.rotateTowards(mouse, 1, 90);
   }
+
+  if(car.x > windowWidth/2 + road.w/2 || car.x < windowWidth/2 - road.w/2){
+    createResetScreen();
+  }
 }
 
 function changeSpeed(){
+  //speed up
   if (keyIsDown(87)){
     speedOfObs +=0.2;
   }
@@ -106,9 +107,12 @@ function changeSpeed(){
 }
 
 function generateObsitcal(){
-  obstical.y += speedOfObs;
-  if(obstical.y > windowHeight){
-    obstical.y = 0;
+  if(obstical.y < windowHeight){
+    obstical.y += speedOfObs;
+  }
+
+  else{    
+    obstical.y = () => random(windowHeight/4);
     obstical.x = () => random(windowWidth/2 - road.w/2 + obstical.w, windowWidth/2 + road.w/2 - obstical.w);
   }
 
@@ -129,6 +133,7 @@ function createStartScreen(){
   
   if(mouseIsPressed && mouseY < maxHeightText && mouseY > minHeightText && mouseX < maxWidthText && mouseX > minWidthText){
     minWidthText = -minWidthText;
+    maxWidthText = -maxWidthText;
     gameStart = true;
   }
 }
@@ -143,43 +148,19 @@ function generatePuddle(){
   }
 
   if(car.overlaps(puddle)){
-    speedOfObs = 0.1/2;
+    speedOfObs = speedOfObs/2;
   }
 }
 
 function createResetScreen(){
   gameStart = false;
   minWidthText = -minWidthText;
+  maxWidthText = -maxWidthText;
   
+  //reset placement
   obstical.y = 0;
   car.y = windowHeight/2 + 100;
+  car.x = windowWidth/2;
   puddle.y = 0;
-
-  textSize(60);
-  fill("yellow");
-  stroke("black");
-  text("Click Here To play again Start", minWidthText, minHeightText, maxWidthText, maxHeightText);
-
-  if(mouseIsPressed && mouseY < maxHeightText && mouseY > minHeightText && mouseX < maxWidthText && mouseX > minWidthText){
-    minWidthText = -minWidthText;
-    gameStart = true;
-  }
-}
-
-function generateBackground(){
-  let randomPlace = 0;
-  if(buildings.y > windowHeight){
-    buildings.y -= speedOfObs;
-  }
-  else{
-    randomPlace = random(100);
-  }
-
-  if (randomPlace > 50){
-    buildings.x = windowWidth/2 - road.w;
-  }
-
-  else{
-    buildings.x = windowWidth/2 + road.w;
-  }
+  speedOfObs = 4;
 }
