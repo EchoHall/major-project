@@ -3,6 +3,8 @@
 
 
 let road, car, curveRoad, obstical, puddle, buildings;
+let carSlowing, carSpeeding;
+
 let gameStart = false;
 
 let minSpeed = 0.5;
@@ -14,6 +16,10 @@ let maxWidthText = 400;
 let minWidthText = 120;
 let minHeightText = 200;
 
+function preload(){
+  carSlowing = loadSound("tires_squal_loop.wav");
+  carSpeeding = loadSound("car acceleration.wav");
+}
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
@@ -48,24 +54,27 @@ function setup() {
   puddle.y = 0;
   puddle.layer = 2;
 
-  // buildings = new Group();
-  // buildings.w = 100;
-  // buildings.h = 150;
-  // buildings.x = () => random(windowWidth);
-  // buildings.y = () => random(windowHeight);
-  // buildings.collider = "s";
-  // buildings.layer = 0;
-  // buildings.amount = 10;
+  buildings = new Group();
+  buildings.w = 100;
+  buildings.h = 150;
+  buildings.x = () => random(windowWidth/2 - road.w/2 - buildings.w/2);
+  buildings.y = () => random(windowHeight);
+  buildings.collider = "s";
+  buildings.layer = 0;
+  buildings.amount = 10;
   
   car.overlaps(road);
   car.overlaps(puddle);
-  //car.overlaps(buildings);
 
   obstical.overlaps(puddle);
   obstical.overlaps(road);
-  // obstical.overlaps(buildings);
 
   puddle.overlaps(road);
+
+
+  //Sound
+  carSlowing.amp(1);
+  carSpeeding.amp(1);
 }
 
 function draw() {
@@ -76,7 +85,7 @@ function draw() {
     changeSpeed();
     generateObsitcal();
     generatePuddle();
-    //generateBackground();
+    generateBackground();
   }
 }
 
@@ -95,10 +104,12 @@ function changeSpeed(){
   //speed up
   if (keyIsDown(87)){
     speedOfObs +=0.2;
+    carSpeeding.play();
   }
   //slow down
   if (keyIsDown(83)){
     speedOfObs -= 0.2;
+    carSlowing.play();
   }
   //slowest
   if (speedOfObs < minSpeed){
@@ -112,7 +123,7 @@ function generateObsitcal(){
   }
 
   else{    
-    obstical.y = () => random(windowHeight/4);
+    obstical.y = 0;
     obstical.x = () => random(windowWidth/2 - road.w/2 + obstical.w, windowWidth/2 + road.w/2 - obstical.w);
   }
 
@@ -163,4 +174,15 @@ function createResetScreen(){
   car.x = windowWidth/2;
   puddle.y = 0;
   speedOfObs = 4;
+}
+
+function generateBackground(){
+  if(buildings.y < windowHeight){
+    buildings.y += speedOfObs;
+  }
+
+  else{
+    buildings.y = 0;
+    buildings.x = () => random(windowWidth/2 - road.w/2 - buildings.w/2);
+  }
 }
