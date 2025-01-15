@@ -2,7 +2,7 @@
 // p5Play engine
 
 
-let road, car, curveRoad, obstical, puddle, buildings;
+let road, car, curveRoad, obsticals, puddle, buildings;
 let carSlowing, carSpeeding;
 
 let gameStart = false;
@@ -39,13 +39,13 @@ function setup() {
   road.color = "black";
   road.layer = 1;
 
-  obstical = new Group();
-  obstical.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
-  obstical.y = () => random(100);
-  obstical.w = 30;
-  obstical.h = 30;
-  obstical.layer = 3;
-  obstical.amount = 4;
+  obsticals = new Group();
+  obsticals.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
+  obsticals.y = () => random(200);
+  obsticals.w = 30;
+  obsticals.h = 30;
+  obsticals.layer = 3;
+  obsticals.amount = 4;
 
   puddle = new Sprite();
   puddle.w = random(100, 150);
@@ -66,8 +66,8 @@ function setup() {
   car.overlaps(road);
   car.overlaps(puddle);
 
-  obstical.overlaps(puddle);
-  obstical.overlaps(road);
+  obsticals.overlaps(puddle);
+  obsticals.overlaps(road);
 
   puddle.overlaps(road);
 
@@ -107,9 +107,14 @@ function changeSpeed(){
     carSpeeding.play();
   }
   //slow down
-  if (keyIsDown(83)){
+  else if (keyIsDown(83)){
     speedOfObs -= 0.2;
     carSlowing.play();
+  }
+
+  else{
+    carSlowing.stop();
+    carSpeeding.stop();
   }
   //slowest
   if (speedOfObs < minSpeed){
@@ -118,17 +123,17 @@ function changeSpeed(){
 }
 
 function generateObsitcal(){
-  if(obstical.y < windowHeight){
-    obstical.y += speedOfObs;
+  if(obsticals.y < windowHeight){
+    obsticals.y += speedOfObs;
   }
 
-  else{    
-    obstical.y = 0;
-    obstical.x = () => random(windowWidth/2 - road.w/2 + obstical.w, windowWidth/2 + road.w/2 - obstical.w);
+  else{ 
+    obsticals.y = 0;
+    obsticals.x = () => random(windowWidth/2 - road.w/2 + obsticals.w, windowWidth/2 + road.w/2 - obsticals.w);
   }
 
   //restart if crash
-  if(car.overlaps(obstical)){
+  if(car.overlaps(obsticals)){
     createResetScreen();
   }
 }
@@ -169,7 +174,7 @@ function createResetScreen(){
   maxWidthText = -maxWidthText;
   
   //reset placement
-  obstical.y = 0;
+  obsticals.y = () => random(200);
   car.y = windowHeight/2 + 100;
   car.x = windowWidth/2;
   puddle.y = 0;
