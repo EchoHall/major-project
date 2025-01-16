@@ -24,6 +24,8 @@ function preload(){
 function setup() {
   new Canvas(windowWidth, windowHeight);
 
+  world.gravity = 0;
+
   car = new Sprite();
   car.y = windowHeight/2 + 100;
   car.x = windowWidth/2;
@@ -37,11 +39,14 @@ function setup() {
   road.w = 600;
   road.h = windowHeight*2;
   road.color = "black";
+  road.collider = "s";
   road.layer = 1;
 
   obsticals = new Group();
   obsticals.x = () => random(windowWidth/2 - road.w/2, windowWidth/2 + road.w/2);
-  obsticals.y = () => random(200);
+  obsticals.y = () => random(-200);
+  obsticals.direction = () => 270;
+  obsticals.speed = -speedOfObs;
   obsticals.w = 30;
   obsticals.h = 30;
   obsticals.layer = 3;
@@ -91,7 +96,7 @@ function draw() {
 
 function carTurning(){
   if(car.x !== mouseX && mouseX < windowWidth/2 + road.w/2 && mouseX > windowWidth/2 - road.w/2){
-    car.moveTowards(mouseX, car.y, 0.1);
+    car.moveTowards(mouseX, mouseY + 50, 0.1);
     car.rotateTowards(mouse, 1, 90);
   }
 
@@ -123,14 +128,17 @@ function changeSpeed(){
 }
 
 function generateObsitcal(){
-  if(obsticals.y < windowHeight){
-    obsticals.y += speedOfObs;
-  }
+  // if(obsticals.y < windowHeight){
+  //   obsticals.y += speedOfObs;
+  // }
 
-  else{ 
-    obsticals.y = 0;
-    obsticals.x = () => random(windowWidth/2 - road.w/2 + obsticals.w, windowWidth/2 + road.w/2 - obsticals.w);
+  if (obsticals.cull(-10)) {
+    new obsticals.Sprite();
   }
+  // else{ 
+  //   obsticals.y = 0;
+  //   obsticals.x = () => random(windowWidth/2 - road.w/2 + obsticals.w, windowWidth/2 + road.w/2 - obsticals.w);
+  // }
 
   //restart if crash
   if(car.overlaps(obsticals)){
@@ -178,6 +186,7 @@ function createResetScreen(){
   car.y = windowHeight/2 + 100;
   car.x = windowWidth/2;
   puddle.y = 0;
+  buildings.y = 0;
   speedOfObs = 4;
 }
 
